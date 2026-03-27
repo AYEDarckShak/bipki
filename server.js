@@ -20,16 +20,17 @@ app.get('/', (req, res) => {
 });
 
 // Открываем или создаем БД SQLite
+const path = require('path');
 let db;
 try {
-  db = new Database('./startup_manager.db');
+  const dbPath = path.join(__dirname, 'startup_manager.db');
+  db = new Database(dbPath);
   console.log('✓ Подключено к SQLite базе данных');
   initializeDatabase();
 } catch (error) {
   console.error('❌ Ошибка подключения к БД:', error.message);
-  process.exit(1);
+  // Не убиваем процесс — даём Vercel вернуть ошибку корректно
 }
-
 // Инициализация БД
 function initializeDatabase() {
   try {
