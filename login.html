@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - Стартап Студия</title>
+    <link rel="stylesheet" href="login-style.css">
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="nav_logo">Стартап Студия</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="#" class="nav_link">Главная</a>
+                    <a href="#" class="nav_link">О нас</a>
+                    <a href="#" class="nav_link">Проекты</a>
+                    <a href="#" class="nav_link">Контакты</a>
+                </li>
+            </ul>
+            <button class="button" id="form-open">Вход</button>
+        </nav>
+    </header>
+
+    <!-- Home -->
+    <section class="home">
+        <div class="form_container">
+            <i class="uil uil-times form_close"></i>
+            <!-- Login Form -->
+            <div class="form login_form">
+                <form id="loginForm">
+                    <h2>Вход в систему</h2>
+
+                    <div class="input_box">
+                        <input type="text" id="username" placeholder="Введите логин" required />
+                        <i class="uil uil-user email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" id="password" placeholder="Введите пароль" required />
+                        <i class="uil uil-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+
+                    <div class="input_box">
+                        <select id="role" required>
+                            <option value="">Выберите роль</option>
+                            <option value="manager">Менеджер</option>
+                            <option value="participant">Участник</option>
+                        </select>
+                        <i class="uil uil-briefcase-alt email"></i>
+                    </div>
+
+                    <div class="option_field">
+                        <span class="checkbox">
+                            <input type="checkbox" id="check" />
+                            <label for="check">Запомнить меня</label>
+                        </span>
+                        <a href="#" class="forgot_pw">Забыли пароль?</a>
+                    </div>
+
+                    <button type="submit" class="button">Войти</button>
+
+                    <div class="login_signup">Нет аккаунта? <a href="#" id="signup">Регистрация</a></div>
+                    
+                    <div class="test-credentials">
+                        <p><strong>Тестовые данные:</strong></p>
+                        <p>Менеджер: admin / 1234</p>
+                        <p>Участник: user / 1234</p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="form signup_form">
+                <form id="signupForm">
+                    <h2>Регистрация</h2>
+
+                    <div class="input_box">
+                        <input type="text" id="signup-username" placeholder="Введите логин" required />
+                        <i class="uil uil-user email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="email" id="signup-email" placeholder="Введите email" required />
+                        <i class="uil uil-envelope-alt email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" id="signup-password" placeholder="Создайте пароль" required />
+                        <i class="uil uil-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" id="signup-confirm-password" placeholder="Подтвердите пароль" required />
+                        <i class="uil uil-lock password"></i>
+                        <i class="uil uil-eye-slash pw_hide"></i>
+                    </div>
+
+                    <button type="submit" class="button">Зарегистрироваться</button>
+
+                    <div class="login_signup">Уже есть аккаунт? <a href="#" id="login">Войти</a></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="login-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление проектами - Стартап Студия</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Главное меню -->
+        <div id="mainScreen" class="screen">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Меню</h2>
+                    <button id="logoutBtn" class="btn btn-small">Выход</button>
+                </div>
+                <nav class="sidebar-nav">
+                    <a href="#" onclick="showDashboard()" class="nav-item active" id="dashboardNav">📊 Дашборд</a>
+                    <a href="#" onclick="showProjects()" class="nav-item" id="projectsNav">📁 Проекты</a>
+                    <a href="#" onclick="showTasks()" class="nav-item" id="tasksNav">✓ Задачи</a>
+                    <a href="#" onclick="showTeam()" class="nav-item" id="teamNav">👥 Команда</a>
+                </nav>
+                <div class="user-info">
+                    <p>Пользователь: <strong id="currentUser">-</strong></p>
+                    <p>Роль: <strong id="currentRole">-</strong></p>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <!-- Дашборд -->
+                <div id="dashboardContent" class="content active">
+                    <h1>Дашборд</h1>
+                    <div class="stats-grid">
+                        <div class="stat-card clickable" onclick="showProjects()">
+                            <h3>Всего проектов</h3>
+                            <p class="stat-number" id="totalProjects">0</p>
+                            <span class="stat-link">Перейти к проектам →</span>
+                        </div>
+                        <div class="stat-card clickable" onclick="showProjects()">
+                            <h3>Активных проектов</h3>
+                            <p class="stat-number" id="activeProjects">0</p>
+                            <span class="stat-link">Перейти к проектам →</span>
+                        </div>
+                        <div class="stat-card clickable" onclick="showTasks()">
+                            <h3>Всего задач</h3>
+                            <p class="stat-number" id="totalTasks">0</p>
+                            <span class="stat-link">Перейти к задачам →</span>
+                        </div>
+                        <div class="stat-card clickable" onclick="showTasks()">
+                            <h3>Выполненных задач</h3>
+                            <p class="stat-number" id="completedTasks">0</p>
+                            <span class="stat-link">Перейти к задачам →</span>
+                        </div>
+                        <div class="stat-card clickable" onclick="showTasks()">
+                            <h3>В работе</h3>
+                            <p class="stat-number" id="inProgressTasks">0</p>
+                            <span class="stat-link">Перейти к задачам →</span>
+                        </div>
+                        <div class="stat-card clickable" onclick="showTeam()">
+                            <h3>Члены команды</h3>
+                            <p class="stat-number" id="teamMembers">0</p>
+                            <span class="stat-link">Перейти к команде →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проекты -->
+                <div id="projectsContent" class="content">
+                    <div class="content-header">
+                        <h1>Проекты</h1>
+                        <button class="btn btn-primary" onclick="showCreateProjectModal()">+ Новый проект</button>
+                    </div>
+                    <div class="filter-group">
+                        <div class="search-box">
+                            <input type="text" id="projectSearch" placeholder="🔍 Поиск проектов..." oninput="filterProjects()">
+                        </div>
+                    </div>
+                    <div id="projectsList" class="projects-list"></div>
+                </div>
+
+                <!-- Задачи -->
+                <div id="tasksContent" class="content">
+                    <div class="content-header">
+                        <h1>Задачи</h1>
+                        <button class="btn btn-primary" onclick="showCreateTaskModal()">+ Новая задача</button>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-row">
+                            <select id="taskStatusFilter" onchange="filterTasks()">
+                                <option value="">Все статусы</option>
+                                <option value="new">Новые</option>
+                                <option value="in_progress">В работе</option>
+                                <option value="completed">Выполнены</option>
+                            </select>
+                            <div class="search-box">
+                                <input type="text" id="taskSearch" placeholder="🔍 Поиск задач..." oninput="filterTasks()">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tasksList" class="tasks-list"></div>
+                </div>
+
+                <!-- Команда -->
+                <div id="teamContent" class="content">
+                    <div class="content-header">
+                        <h1>Команда</h1>
+                        <button class="btn btn-primary" onclick="showAddTeamMemberModal()">+ Добавить члена</button>
+                    </div>
+                    <div id="teamList" class="team-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <!-- Создание проекта -->
+    <div id="createProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Создать проект</h2>
+                <button class="close-btn" onclick="closeModal('createProjectModal')">&times;</button>
+            </div>
+            <form id="createProjectForm" onsubmit="createProject(event)">
+                <div class="form-group">
+                    <label for="projectName">Название:</label>
+                    <input type="text" id="projectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Описание:</label>
+                    <textarea id="projectDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectDueDate">Срок выполнения:</label>
+                    <input type="date" id="projectDueDate">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('createProjectModal')">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Редактирование проекта -->
+    <div id="editProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Редактировать проект</h2>
+                <button class="close-btn" onclick="closeModal('editProjectModal')">&times;</button>
+            </div>
+            <form id="editProjectForm" onsubmit="updateProject(event)">
+                <div class="form-group">
+                    <label for="editProjectName">Название:</label>
+                    <input type="text" id="editProjectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProjectDescription">Описание:</label>
+                    <textarea id="editProjectDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editProjectStatus">Статус:</label>
+                    <select id="editProjectStatus">
+                        <option value="active">Активный</option>
+                        <option value="completed">Завершен</option>
+                        <option value="paused">На паузе</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editProjectDueDate">Срок выполнения:</label>
+                    <input type="date" id="editProjectDueDate">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editProjectModal')">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Создание задачи -->
+    <div id="createTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Создать задачу</h2>
+                <button class="close-btn" onclick="closeModal('createTaskModal')">&times;</button>
+            </div>
+            <form id="createTaskForm" onsubmit="createTask(event)">
+                <div class="form-group">
+                    <label for="taskTitle">Название:</label>
+                    <input type="text" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Описание:</label>
+                    <textarea id="taskDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="taskProject">Проект:</label>
+                    <select id="taskProject" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="taskPriority">Приоритет:</label>
+                    <select id="taskPriority">
+                        <option value="low">Низкий</option>
+                        <option value="medium" selected>Средний</option>
+                        <option value="high">Высокий</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskDueDate">Срок выполнения:</label>
+                    <input type="date" id="taskDueDate">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('createTaskModal')">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Добавление члена команды -->
+    <div id="addTeamMemberModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить члена команды</h2>
+                <button class="close-btn" onclick="closeModal('addTeamMemberModal')">&times;</button>
+            </div>
+            <form id="addTeamMemberForm" onsubmit="addTeamMember(event)">
+                <div class="form-group">
+                    <label for="memberName">Имя:</label>
+                    <input type="text" id="memberName" required>
+                </div>
+                <div class="form-group">
+                    <label for="memberEmail">Email:</label>
+                    <input type="email" id="memberEmail">
+                </div>
+                <div class="form-group">
+                    <label for="memberRole">Роль:</label>
+                    <select id="memberRole">
+                        <option value="participant">Участник</option>
+                        <option value="manager">Менеджер</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addTeamMemberModal')">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

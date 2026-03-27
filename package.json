@@ -1,0 +1,19 @@
+{
+  "name": "startup_project_manager_sqlite",
+  "version": "1.0.0",
+  "description": "Веб-приложение для управления проектами и задачами в стартап-студиях",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["projects", "tasks", "management"],
+  "author": "Student",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "better-sqlite3": "^9.0.0"
+  }
+}
