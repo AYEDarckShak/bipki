@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 });
 
 // Открываем или создаем БД SQLite
-const path = require('path');
+
 let db;
 try {
   const dbPath = path.join(__dirname, 'startup_manager.db');
